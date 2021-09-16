@@ -1,7 +1,8 @@
-package com.shivamkumarjha.openweathermap
+package com.shivamkumarjha.openweathermap.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.shivamkumarjha.openweathermap.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
