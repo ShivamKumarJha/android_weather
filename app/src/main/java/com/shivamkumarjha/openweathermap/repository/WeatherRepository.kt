@@ -6,6 +6,6 @@ import com.shivamkumarjha.openweathermap.network.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {
-    suspend fun getWeather(location: String): Flow<Resource<out WeatherMain?>>
-    suspend fun getForecast(location: String): Flow<Resource<out ForecastMain?>>
+    suspend fun getWeather(location: String): Flow<Resource<WeatherMain?>>
+    suspend fun getForecast(location: String): Flow<Resource<ForecastMain?>>
 }
