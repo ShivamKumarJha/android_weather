@@ -7,6 +7,12 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+// Read the secret key's
+Properties properties = new Properties()
+if (rootProject.file("local.properties").exists()) {
+    properties.load(rootProject.file("local.properties").newDataInputStream())
+}
+
 android {
     compileSdk 31
 
@@ -19,6 +25,9 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Keys
+        buildConfigField "String", "APP_ID", "\"${properties.getProperty("openweathermap.appid", "")}\""
     }
     buildFeatures {
         viewBinding true
