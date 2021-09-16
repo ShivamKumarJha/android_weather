@@ -1,6 +1,6 @@
 package com.shivamkumarjha.openweathermap.utility
 
-import com.shivamkumarjha.openweathermap.model.ForecastModel
+import com.shivamkumarjha.openweathermap.model.Forecast
 import com.shivamkumarjha.openweathermap.model.WeatherList
 import java.text.SimpleDateFormat
 import java.util.*
@@ -11,7 +11,7 @@ object Utility {
         return temperature - 273.15
     }
 
-    fun getAverageTemperature(
+    private fun getAverageTemperature(
         temp: Double,
         feels_like: Double,
         temp_min: Double,
@@ -20,32 +20,32 @@ object Utility {
         return (temp + feels_like + temp_min + temp_max) / 4
     }
 
-    fun getDateOnly(date: String): String {
+    private fun getForecastDate(date: String): String {
         return date.substringBefore(" ")
     }
 
-    fun getWeatherModel(weatherList: ArrayList<WeatherList>): ArrayList<ForecastModel> {
+    fun getForecasts(weatherList: ArrayList<WeatherList>): ArrayList<Forecast> {
         var size = 0
-        val forecastModel: ArrayList<ForecastModel> = arrayListOf()
+        val forecasts: ArrayList<Forecast> = arrayListOf()
         for ((index, item) in weatherList.withIndex()) {
             if (index < weatherList.size - 1) {
                 // We need list with only 4 entries
                 if (size >= 4)
-                    return forecastModel
+                    return forecasts
                 // Compare current item with next item
-                if (getDateOnly(item.dt_txt) == getDateOnly(weatherList[index + 1].dt_txt)) {
+                if (getForecastDate(item.dt_txt) == getForecastDate(weatherList[index + 1].dt_txt)) {
                     // Using sub Index to determine weather to add new entry or update previous entry
                     var subIndex = -1
-                    if (forecastModel.isNotEmpty())
-                        for ((i, weather) in forecastModel.withIndex()) {
-                            if (getDateOnly(weather.day) == getDateOnly(item.dt_txt)) {
+                    if (forecasts.isNotEmpty())
+                        for ((i, weather) in forecasts.withIndex()) {
+                            if (getForecastDate(weather.day) == getForecastDate(item.dt_txt)) {
                                 subIndex = i
                                 break
                             }
                         }
                     if (subIndex == -1) {
-                        forecastModel.add(
-                            ForecastModel(
+                        forecasts.add(
+                            Forecast(
                                 item.dt_txt,
                                 getAverageTemperature(
                                     item.main.temp,
@@ -63,8 +63,8 @@ object Utility {
                             item.main.feels_like,
                             item.main.temp_min,
                             item.main.temp_max
-                        ) + forecastModel[subIndex].temperature) / 2
-                        forecastModel[subIndex] = ForecastModel(
+                        ) + forecasts[subIndex].temperature) / 2
+                        forecasts[subIndex] = Forecast(
                             item.dt_txt,
                             averageTemperature
                         )
@@ -72,16 +72,16 @@ object Utility {
                 } else {
                     // Decide to add current item
                     var subIndex = -1
-                    if (forecastModel.isNotEmpty())
-                        for ((i, weather) in forecastModel.withIndex()) {
-                            if (getDateOnly(weather.day) == getDateOnly(item.dt_txt)) {
+                    if (forecasts.isNotEmpty())
+                        for ((i, weather) in forecasts.withIndex()) {
+                            if (getForecastDate(weather.day) == getForecastDate(item.dt_txt)) {
                                 subIndex = i
                                 break
                             }
                         }
                     if (subIndex == -1) {
-                        forecastModel.add(
-                            ForecastModel(
+                        forecasts.add(
+                            Forecast(
                                 item.dt_txt,
                                 getAverageTemperature(
                                     item.main.temp,
@@ -96,7 +96,7 @@ object Utility {
                 }
             }
         }
-        return forecastModel
+        return forecasts
     }
 
     fun getDayFromDate(date: String): String {

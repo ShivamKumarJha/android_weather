@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shivamkumarjha.openweathermap.config.Constants
 import com.shivamkumarjha.openweathermap.di.CoroutineDispatchers
-import com.shivamkumarjha.openweathermap.model.ForecastMain
-import com.shivamkumarjha.openweathermap.model.WeatherMain
+import com.shivamkumarjha.openweathermap.model.ForecastResponse
+import com.shivamkumarjha.openweathermap.model.WeatherResponse
 import com.shivamkumarjha.openweathermap.network.Resource
 import com.shivamkumarjha.openweathermap.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,11 +21,11 @@ class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
-    private val _weather = MutableLiveData<Resource<WeatherMain?>>()
-    val weather: LiveData<Resource<WeatherMain?>> = _weather
+    private val _weather = MutableLiveData<Resource<WeatherResponse?>>()
+    val weather: LiveData<Resource<WeatherResponse?>> = _weather
 
-    private val _forecast = MutableLiveData<Resource<ForecastMain?>>()
-    val forecast: LiveData<Resource<ForecastMain?>> = _forecast
+    private val _forecast = MutableLiveData<Resource<ForecastResponse?>>()
+    val forecast: LiveData<Resource<ForecastResponse?>> = _forecast
 
     init {
         callApi()

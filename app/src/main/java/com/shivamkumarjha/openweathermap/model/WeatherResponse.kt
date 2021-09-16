@@ -2,7 +2,7 @@ package com.shivamkumarjha.openweathermap.model
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherMain(
+data class WeatherResponse(
     @SerializedName("coord") val coordinates: Coordinates,
     @SerializedName("weather") val weather: List<Weather>,
     @SerializedName("base") val base: String,

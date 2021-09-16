@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     Status.SUCCESS -> {
                         statusToggle(true)
                         it.data?.let { forecast ->
-                            forecastAdapter.setForecasts(Utility.getWeatherModel(forecast.list))
+                            forecastAdapter.setForecasts(Utility.getForecasts(forecast.list))
                         }
                     }
                     Status.ERROR -> statusToggle(false)

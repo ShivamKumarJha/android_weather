@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shivamkumarjha.openweathermap.databinding.ItemForecastBinding
-import com.shivamkumarjha.openweathermap.model.ForecastModel
+import com.shivamkumarjha.openweathermap.model.Forecast
 
 class ForecastAdapter : RecyclerView.Adapter<ForecastViewHolder>() {
-    private var forecasts: ArrayList<ForecastModel> = arrayListOf()
+    private var forecasts: ArrayList<Forecast> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
         val binding =
@@ -23,7 +23,7 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setForecasts(forecasts: ArrayList<ForecastModel>) {
+    fun setForecasts(forecasts: ArrayList<Forecast>) {
         this.forecasts = forecasts
         notifyDataSetChanged()
     }
