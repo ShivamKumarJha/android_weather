@@ -14,7 +14,7 @@ class ForecastViewHolder(binding: ItemForecastBinding) : RecyclerView.ViewHolder
     fun initialize(forecastModel: ForecastModel) {
         day.text = Utility.getDayFromDate(forecastModel.day)
         temperature.text = temperature.context.getString(
-            R.string.temperature_value,
+            R.string.celsius_value,
             Utility.convertKelvinToCelsius(forecastModel.temperature).toInt().toString()
         )
     }
