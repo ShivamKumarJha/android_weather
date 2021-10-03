@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shivamkumarjha.openweathermap.R
 import com.shivamkumarjha.openweathermap.databinding.ActivityMainBinding
-import com.shivamkumarjha.openweathermap.network.Status
+import com.shivamkumarjha.openweathermap.network.Resource
 import com.shivamkumarjha.openweathermap.ui.extensions.getColorById
 import com.shivamkumarjha.openweathermap.ui.main.adapter.ForecastAdapter
 import com.shivamkumarjha.openweathermap.utility.Utility
@@ -61,8 +61,8 @@ class MainActivity : AppCompatActivity() {
     private fun observer() {
         viewModel.weather.observe(this) {
             if (it != null) {
-                when (it.status) {
-                    Status.SUCCESS -> {
+                when (it) {
+                    is Resource.Success<*> -> {
                         statusToggle(true)
                         it.data?.let { weather ->
                             binding.tvCityId.text = weather.name
@@ -72,30 +72,30 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     }
-                    Status.ERROR -> statusToggle(false)
-                    Status.LOADING -> {
+                    is Resource.Error<*> -> statusToggle(false)
+                    is Resource.Loading<*> -> {
                     }
-                    Status.OFFLINE -> statusToggle(false)
+                    is Resource.Offline<*> -> statusToggle(false)
                 }
-                binding.progressBarId.isVisible = it.status == Status.LOADING
+                binding.progressBarId.isVisible = it is Resource.Loading
             }
         }
 
         viewModel.forecast.observe(this) {
             if (it != null) {
-                when (it.status) {
-                    Status.SUCCESS -> {
+                when (it) {
+                    is Resource.Success<*> -> {
                         statusToggle(true)
                         it.data?.let { forecast ->
                             forecastAdapter.setForecasts(Utility.getForecasts(forecast.list))
                         }
                     }
-                    Status.ERROR -> statusToggle(false)
-                    Status.LOADING -> {
+                    is Resource.Error<*> -> statusToggle(false)
+                    is Resource.Loading<*> -> {
                     }
-                    Status.OFFLINE -> statusToggle(false)
+                    is Resource.Offline<*> -> statusToggle(false)
                 }
-                binding.progressBarId.isVisible = it.status == Status.LOADING
+                binding.progressBarId.isVisible = it is Resource.Loading
             }
         }
     }

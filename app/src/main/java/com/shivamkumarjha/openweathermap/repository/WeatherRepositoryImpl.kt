@@ -18,42 +18,42 @@ class WeatherRepositoryImpl(
 ) : WeatherRepository {
 
     override suspend fun getWeather(location: String): Flow<Resource<WeatherResponse?>> = flow {
-        emit(Resource.loading(data = null))
+        emit(Resource.Loading(data = null))
         try {
             val response = apiService.getWeather(location)
             if (response.isSuccessful) {
-                emit(Resource.success(data = response.body()))
+                emit(Resource.Success(data = response.body()))
                 Log.d(Constants.TAG, response.body().toString())
             } else {
-                emit(Resource.error(data = null, message = response.code().toString()))
+                emit(Resource.Error(data = null, message = response.code().toString()))
                 Log.d(Constants.TAG, response.code().toString())
             }
         } catch (exception: Exception) {
             if (exception is NoConnectivityException)
-                emit(Resource.offline(data = null))
+                emit(Resource.Offline(data = null))
             else {
-                emit(Resource.error(data = null, message = exception.message.toString()))
+                emit(Resource.Error(data = null, message = exception.message.toString()))
                 Log.e(Constants.TAG, exception.message.toString())
             }
         }
     }.flowOn(dispatchers.io)
 
     override suspend fun getForecast(location: String): Flow<Resource<ForecastResponse?>> = flow {
-        emit(Resource.loading(data = null))
+        emit(Resource.Loading(data = null))
         try {
             val response = apiService.getForecast(location)
             if (response.isSuccessful) {
-                emit(Resource.success(data = response.body()))
+                emit(Resource.Success(data = response.body()))
                 Log.d(Constants.TAG, response.body().toString())
             } else {
-                emit(Resource.error(data = null, message = response.code().toString()))
+                emit(Resource.Error(data = null, message = response.code().toString()))
                 Log.d(Constants.TAG, response.code().toString())
             }
         } catch (exception: Exception) {
             if (exception is NoConnectivityException)
-                emit(Resource.offline(data = null))
+                emit(Resource.Offline(data = null))
             else {
-                emit(Resource.error(data = null, message = exception.message.toString()))
+                emit(Resource.Error(data = null, message = exception.message.toString()))
                 Log.e(Constants.TAG, exception.message.toString())
             }
         }
